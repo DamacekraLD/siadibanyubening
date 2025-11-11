@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block atas5 %} {{ 'Perbarui' if pasien else 'Tambah' }} Data Pasien{% endblock %}
+
+{% block tengah5 %}
+
+<div class="container">
+    
+
+    <div class="row align-items-center mb-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}"><i class="bi bi-house-door-fill"></i></a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('getpasien') }}">Data Pasien</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ 'Perbarui Data' if pasien else 'Tambah Data' }}</li>
+            </ol>
+        </nav>
+            <div class="col">
+                <h4 style="font-weight: 700;" class="mb-0">Form Pasien</h4>
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-primary" href="{{ url_for('getpasien') }}">
+                    <i class="bi bi-arrow-left-circle"></i> Kembali
+                </a>
+            </div>
+        </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="card">
+        <div class="card-header">
+            {{ 'Perbarui data dokter di bawah ini' if pasien else 'Silakan isi data dokter baru di bawah ini' }}
+        </div>
+        <div class="card-body">
+            <form class="needs-validation" novalidate action="{{ url_for('update_pasien', id=pasien.id) if pasien else url_for('simpan_pasien') }}" method="post" >
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Nama Lengkap</label>
+                <input type="text" name="nama" id="nama" class="form-control" value="{{ pasien.nama }}" required>
+                <div class="invalid-feedback">
+                    Nama Pasien wajib diisi.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Umur</label>
+                <input type="text" name="umur" id="umur" class="form-control" value="{{ pasien.umur }}" required>
+                <div class="invalid-feedback">
+                    Umur wajib diisi.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Jenis Kelamin</label>
+                <input type="text" name="jenis_kelamin" id="jenis_kelamin" class="form-control" value="{{ pasien.jenis_kelamin }}" required>
+                <div class="invalid-feedback">
+                    Jenis Kelamin wajib diisi.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Alamat</label>
+                <input type="text" name="alamat" id="alamat" class="form-control" value="{{ pasien.alamat }}" required>
+                <div class="invalid-feedback">
+                    Alamat wajib diisi.
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Nomor Telepon</label>
+                <input type="text" name="notelp" id="notelp" class="form-control" value="{{ pasien.notelp }}" required>
+                <div class="invalid-feedback">
+                    Nomor Telepon wajib diisi.
+                </div>
+            </div>
+
+            <button id="{{ 'saveBtn' if pasien else 'btn0' }}" type="{{ 'button' if pasien else 'submit' }}"  data-id="{{ pasien.id if pasien }}" class="btn btn-primary">
+                <i class="bi {{ 'bi-pencil-square' if pasien else 'bi-plus-circle' }}"></i>
+                {{ 'Perbarui' if pasien else 'Tambah' }}
+            </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+        })
+    })()
+</script>
+
+<script>
+    $(document).ready(function() {
+    $('#saveBtn').click(function() {
+        const id = $(this).data('id');
+
+        const nama = $('#nama').val();
+        const umur = $('#umur').val();
+        const jenis_kelamin = $('#jenis_kelamin').val();
+        const alamat = $('#alamat').val();
+        const notelp = $('#notelp').val();
+
+        fetch(`/update_pasien/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nama, umur, jenis_kelamin, alamat, notelp })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = "{{ url_for('getpasien') }}";
+            } else {
+                alert('❌ Gagal memperbarui data.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
+
+{% endblock %}
+
+{% block bawah5 %}
+<footer class="footer py-2 text-center">
+    &copy; 2025 SIADI Banyubening. All rights reserved.
+</footer>
+{% endblock %}

@@ -1,0 +1,140 @@
+body {
+    margin: 0;
+    font-family: Quicksand;
+    background-color: #ffffff;
+    color: #333;
+    line-height: 1.6;
+    padding-top: 90px;
+}
+
+main {
+    margin: 20px auto;
+    padding: 0 20px;
+}
+
+main h1 {
+    font-weight: 700;
+    font-size: 35px;
+    text-align: center;
+    color: #111;
+}
+
+/* NAVBAR */
+
+.navbar{
+    position:fixed;
+    top:0;
+    left:0;
+    right:0;
+    width:100%;
+    margin:0;
+    padding:20px 20px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    background:#fff;
+    border-radius:0;
+    box-shadow:0 6px 18px rgba(20,20,20,0.08);
+    z-index:1000;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    text-decoration:none;
+    color:inherit;
+}
+
+.logo{
+    height:40px;
+    width:auto;
+    display:block;
+}
+
+.brand-text{
+    font-weight:600;
+    font-size:16px;
+    color:#111;
+}
+
+.nav-links{
+    font-weight: 600;
+    list-style:none;
+    display:flex;
+    gap:5px;
+    margin:0;
+    padding:0;
+    align-items:center;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#333;
+    font-size:15px;
+    padding:6px 10px;
+    border-radius:6px;
+    transition:background .12s, color .12s;
+}
+
+.nav-links a:hover,
+.nav-links a:focus{
+    background:rgba(0,0,0,0.04);
+    color:#000;
+    outline:none;
+}
+
+/* Responsive: collapse brand text on small screens */
+@media (max-width:520px){
+    .brand-text{ display:none; }
+    .nav-links{ gap:10px; font-size:13px; }
+    .navbar{ padding:8px 12px; }
+}
+
+/* FOOTER */
+.footer {
+    background-color: #00203f;
+    color: #fff;
+    padding: 10px 0;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+}
+
+/* BREADCRUMB */
+
+.breadcrumb {
+    background-color: transparent;
+    padding: 0;
+    margin-bottom: 1rem;
+    list-style: none;
+    font-weight: 600;   
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+    color: #6c757d;
+}
+.breadcrumb-item a {
+    text-decoration: none;
+    color: #303a4a;
+}
+.breadcrumb-item a:hover {
+    text-decoration: none;
+    color: #110092;
+}
+
+.shapeicon {
+    width: 64px;
+    height: 64px;
+    border-radius: 8px;
+    background: #00203f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28px;
+}
+
+.shapeicon i {
+    color: #ffffff;
+}

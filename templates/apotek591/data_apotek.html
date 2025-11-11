@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block atas5 %}Data Apotek{% endblock %}
+
+{% block tengah5 %}
+<div class="container">
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ url_for('index') }}"><i class="bi bi-house-door-fill"></i></a></li>
+            <li class="breadcrumb-item active" aria-current="page">Data Apotek</li>
+        </ol>
+    </nav>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show alertnotif" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+            
+    <div class="row align-items-center mb-3">
+        <div class="col">
+            <h4 style="font-weight: 700;" class="mb-0">Data Apotek</h4>
+        </div>
+        <div class="col-auto">
+            <a class="btn btn-primary" href="{{ url_for('form_apotek') }}">
+                <i class="bi bi-plus-circle"></i> Tambah
+            </a>
+        </div>
+    </div>
+
+
+    <table class="table table-bordered table-responsive-sm table-hover">
+    <thead class="table-light">
+            <tr>
+                <th width="3%">#</th>
+                <th>Nama</th>
+                <th>Kategori</th>
+                <th>Harga</th>
+                <th>Stok</th>
+                <th>Supplier</th>
+                <th width="9.5%">Aksi</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for o in obat %}
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td>{{ o.nama_obat }}</td>
+                <td>{{ o.kategori }}</td>
+                <td>Rp {{ o.harga }}</td>
+                <td>{{ o.stok }}</td>
+                <td>{{ o.supplier }}</td>
+                <td>
+                    <button class="edit-btn btn btn-warning btn-sm" data-id="{{ o.id }}">Edit</button>
+                    <button type="button" class="open-delete-modal btn btn-danger btn-sm" data-id="{{ o.id }}" data-bs-toggle="modal" data-bs-target="#deletebutton">Hapus</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="deletebutton" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Konfirmasi Hapus Data</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Apakah anda yakin ingin menghapus data ini?
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
+                                <button type="button" class="confirm-delete btn btn-danger">Ya, Hapus</button>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- <div class="alert alert-primary" role="alert" id="alertnone">
+        Masih dalam tahap pengembangan
+    </div> -->
+</div>
+
+<script>
+  // Auto close flash messages after 3 seconds
+  setTimeout(() => {
+    const alerts = document.querySelectorAll('.alertnotif');
+    alerts.forEach(alert => {
+      const bsAlert = new bootstrap.Alert(alert);
+      bsAlert.close();
+    });
+  }, 3000); // waktu dalam milidetik (3000 = 3 detik)
+
+  $(".edit-btn").click(function() {
+    const id = $(this).data("id");
+    window.location.href = `/edit_apotek/${id}`;
+});
+</script>
+
+<script>
+let deleteId = null;
+
+$(document).ready(function(){
+
+    // Saat tombol "Hapus" di tabel diklik
+    $('.open-delete-modal').on('click', function(){
+        deleteId = $(this).data('id'); // simpan id sementara
+    });
+
+    // Saat tombol "Ya, Hapus" di modal diklik
+    $('.confirm-delete').on('click', function(){
+        fetch(`/hapus_apotek/${deleteId}`, {
+            method: 'DELETE'
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success) {
+                $(`#row-${deleteId}`).remove();
+                $('#deletebutton').modal('hide');
+                location.reload();
+
+            } else {
+                alert('Gagal menghapus data.');
+            }
+        });
+    });
+
+});
+</script>
+
+
+{% endblock %}
+
+{% block bawah5 %}
+<footer class="footer py-2 text-center">
+    &copy; 2025 SIADI Banyubening. All rights reserved.
+</footer>
+{% endblock %}

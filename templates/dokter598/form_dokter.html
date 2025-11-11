@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block atas5 %} {{ 'Perbarui' if dokter else 'Tambah' }} Data Dokter{% endblock %}
+
+{% block tengah5 %}
+
+<div class="container">
+    
+
+    <div class="row align-items-center mb-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}"><i class="bi bi-house-door-fill"></i></a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('getdokter') }}">Data Dokter</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ 'Perbarui Data' if dokter else 'Tambah Data' }}</li>
+            </ol>
+        </nav>
+            <div class="col">
+                <h4 style="font-weight: 700;" class="mb-0">Form Dokter</h4>
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-primary" href="{{ url_for('getdokter') }}">
+                    <i class="bi bi-arrow-left-circle"></i> Kembali
+                </a>
+            </div>
+        </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="card">
+        <div class="card-header">
+            {{ 'Perbarui data dokter di bawah ini' if dokters else 'Silakan isi data dokter baru di bawah ini' }}
+        </div>
+        <div class="card-body">
+            <form class="needs-validation" novalidate action="{{ url_for('update_dokter', id=dokter.id) if dokter else url_for('simpan_dokter') }}" method="post" >
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Nama Lengkap</label>
+                <input type="text" name="nama" id="nama" class="form-control" value="{{ dokter.nama }}" required>
+                <div class="invalid-feedback">
+                    Nama dokter wajib diisi.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Spesialis</label>
+                <input type="text" name="spesialis" id="spesialis" class="form-control" value="{{ dokter.spesialis }}" required>
+                <div class="invalid-feedback">
+                    Spesialis wajib diisi.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Jadwal</label>
+                <input type="text" name="jadwal" id="jadwal" class="form-control" value="{{ dokter.jadwal }}" required>
+                <div class="invalid-feedback">
+                    Jadwal wajib diisi.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Ruangan</label>
+                <input type="text" name="ruangan" id="ruangan" class="form-control" value="{{ dokter.ruangan }}" required>
+                <div class="invalid-feedback">
+                    Ruangan wajib diisi.
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Nomor Telepon</label>
+                <input type="text" name="notelp" id="notelp" class="form-control" value="{{ dokter.notelp }}" required>
+                <div class="invalid-feedback">
+                    Nomor Telepon wajib diisi.
+                </div>
+            </div>
+
+            <button id="{{ 'saveBtn' if dokter else 'btn0' }}" type="{{ 'button' if dokter else 'submit' }}"  data-id="{{ dokter.id if dokter }}" class="btn btn-primary">
+                <i class="bi {{ 'bi-pencil-square' if dokter else 'bi-plus-circle' }}"></i>
+                {{ 'Perbarui' if dokter else 'Tambah' }}
+            </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+        })
+    })()
+</script>
+
+<script>
+    $(document).ready(function() {
+    $('#saveBtn').click(function() {
+        const id = $(this).data('id');
+
+        const nama = $('#nama').val();
+        const spesialis = $('#spesialis').val();
+        const jadwal = $('#jadwal').val();
+        const ruangan = $('#ruangan').val();
+        const notelp = $('#notelp').val();
+
+        fetch(`/update_dokter/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nama, spesialis, jadwal, ruangan, notelp })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = "{{ url_for('getdokter') }}";
+            } else {
+                alert('❌ Gagal memperbarui data.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
+
+{% endblock %}
+
+{% block bawah5 %}
+<footer class="footer py-2 text-center">
+    &copy; 2025 SIADI Banyubening. All rights reserved.
+</footer>
+{% endblock %}

@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block atas5 %} {{ 'Perbarui' if obat else 'Tambah' }} Data Apotek{% endblock %}
+
+{% block tengah5 %}
+
+<div class="container">
+    
+
+    <div class="row align-items-center mb-3">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb breadcrumb-dark breadcrumb-transparent">
+                <li class="breadcrumb-item"><a href="{{ url_for('index') }}"><i class="bi bi-house-door-fill"></i></a></li>
+                <li class="breadcrumb-item"><a href="{{ url_for('getapotek') }}">Data Apotek</a></li>
+                <li class="breadcrumb-item active" aria-current="page">{{ 'Perbarui Data' if obat else 'Tambah Data' }}</li>
+            </ol>
+        </nav>
+            <div class="col">
+                <h4 style="font-weight: 700;" class="mb-0">Form Apotek</h4>
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-primary" href="{{ url_for('getapotek') }}">
+                    <i class="bi bi-arrow-left-circle"></i> Kembali
+                </a>
+            </div>
+        </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    
+    <div class="card">
+        <div class="card-header">
+            {{ 'Perbarui data apotek di bawah ini' if obat else 'Silakan isi data apotek baru di bawah ini' }}
+        </div>
+        <div class="card-body">
+            <form class="needs-validation" novalidate action="{{ url_for('update_apotek', id=obat.id) if obat else url_for('simpan_apotek') }}" method="post" >
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Nama</label>
+                <input type="text" name="nama" id="nama" class="form-control" value="{{ obat.nama_obat }}" required>
+                <div class="invalid-feedback">
+                    Nama Obat wajib diisi.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Kategori</label>
+                <input type="text" name="kategori" id="kategori" class="form-control" value="{{ obat.kategori }}" required>
+                <div class="invalid-feedback">
+                    Kategori wajib diisi.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Harga</label>
+                <input type="number" name="harga" id="harga" class="form-control" value="{{ obat.harga }}" required>
+                <div class="invalid-feedback">
+                    Harga wajib diisi.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Stok</label>
+                <input type="number" name="stok" id="stok" class="form-control" value="{{ obat.stok }}" required>
+                <div class="invalid-feedback">
+                    Stok wajib diisi.
+                </div>
+            </div>
+            
+            <div class="mb-3">
+                <label for="inputText" class="form-label">Supplier</label>
+                <input type="text" name="supplier" id="supplier" class="form-control" value="{{ obat.supplier }}" required>
+                <div class="invalid-feedback">
+                    Supplier wajib diisi.
+                </div>
+            </div>
+
+            <button id="{{ 'saveBtn' if obat else 'btn0' }}" type="{{ 'button' if obat else 'submit' }}"  data-id="{{ obat.id if obat }}" class="btn btn-primary">
+                <i class="bi {{ 'bi-pencil-square' if obat else 'bi-plus-circle' }}"></i>
+                {{ 'Perbarui' if obat else 'Tambah' }}
+            </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+    'use strict'
+
+    // Fetch all the forms we want to apply custom Bootstrap validation styles to
+    var forms = document.querySelectorAll('.needs-validation')
+
+    // Loop over them and prevent submission
+    Array.prototype.slice.call(forms)
+        .forEach(function (form) {
+        form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+            event.preventDefault()
+            event.stopPropagation()
+            }
+
+            form.classList.add('was-validated')
+        }, false)
+        })
+    })()
+</script>
+
+<script>
+    $(document).ready(function() {
+    $('#saveBtn').click(function() {
+        const id = $(this).data('id');
+
+        const nama = $('#nama').val();
+        const kategori = $('#kategori').val();
+        const harga = $('#harga').val();
+        const stok = $('#stok').val();
+        const supplier = $('#supplier').val();
+
+        fetch(`/update_apotek/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nama, kategori, harga, stok, supplier })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                window.location.href = "{{ url_for('getapotek') }}";
+            } else {
+                alert('❌ Gagal memperbarui data.');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    });
+});
+</script>
+
+{% endblock %}
+
+{% block bawah5 %}
+<footer class="footer py-2 text-center">
+    &copy; 2025 SIADI Banyubening. All rights reserved.
+</footer>
+{% endblock %}
