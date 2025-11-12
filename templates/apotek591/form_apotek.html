@@ -44,7 +44,7 @@
             <form class="needs-validation" novalidate action="{{ url_for('update_apotek', id=obat.id) if obat else url_for('simpan_apotek') }}" method="post" >
             <div class="mb-3">
                 <label for="inputText" class="form-label">Nama</label>
-                <input type="text" name="nama" id="nama" class="form-control" value="{{ obat.nama_obat }}" required>
+                <input type="text" name="nama591" id="nama" class="form-control" value="{{ obat.nama_obat }}" required>
                 <div class="invalid-feedback">
                     Nama Obat wajib diisi.
                 </div>
@@ -52,7 +52,7 @@
 
             <div class="mb-3">
                 <label for="inputText" class="form-label">Kategori</label>
-                <input type="text" name="kategori" id="kategori" class="form-control" value="{{ obat.kategori }}" required>
+                <input type="text" name="kategori591" id="kategori" class="form-control" value="{{ obat.kategori }}" required>
                 <div class="invalid-feedback">
                     Kategori wajib diisi.
                 </div>
@@ -60,7 +60,7 @@
 
             <div class="mb-3">
                 <label for="inputText" class="form-label">Harga</label>
-                <input type="number" name="harga" id="harga" class="form-control" value="{{ obat.harga }}" required>
+                <input type="number" name="harga591" id="harga" class="form-control" value="{{ obat.harga }}" required>
                 <div class="invalid-feedback">
                     Harga wajib diisi.
                 </div>
@@ -68,7 +68,7 @@
 
             <div class="mb-3">
                 <label for="inputText" class="form-label">Stok</label>
-                <input type="number" name="stok" id="stok" class="form-control" value="{{ obat.stok }}" required>
+                <input type="number" name="stok591" id="stok" class="form-control" value="{{ obat.stok }}" required>
                 <div class="invalid-feedback">
                     Stok wajib diisi.
                 </div>
@@ -76,7 +76,7 @@
             
             <div class="mb-3">
                 <label for="inputText" class="form-label">Supplier</label>
-                <input type="text" name="supplier" id="supplier" class="form-control" value="{{ obat.supplier }}" required>
+                <input type="text" name="supplier591" id="supplier" class="form-control" value="{{ obat.supplier }}" required>
                 <div class="invalid-feedback">
                     Supplier wajib diisi.
                 </div>
@@ -128,7 +128,7 @@
         fetch(`/update_apotek/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nama, kategori, harga, stok, supplier })
+            body: JSON.stringify({ 'nama591': nama, 'kategori591': kategori, 'harga591': harga, 'stok591': stok, 'supplier591': supplier })
         })
         .then(response => response.json())
         .then(data => {

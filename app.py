@@ -116,11 +116,11 @@ def form_dokter():
 
 @app.route('/simpan_dokter', methods=['POST'])
 def simpan_dokter():
-    nama = request.form['nama']
-    spesialis = request.form['spesialis']
-    jadwal = request.form['jadwal']
-    ruangan = request.form['ruangan']
-    notelp = request.form['notelp']
+    nama = request.form['nama598']
+    spesialis = request.form['spesialis598']
+    jadwal = request.form['jadwal598']
+    ruangan = request.form['ruangan598']
+    notelp = request.form['notelp598']
 
     new_id = max(dokter['id'] for dokter in dokters) + 1 if dokters else 1
     new_dokter = {
@@ -133,7 +133,7 @@ def simpan_dokter():
     }
     dokters.append(new_dokter)
     flash('Data dokter berhasil disimpan!', 'success')
-    return render_template('dokter598/data_dokter.html', dokter=dokters, message="Data dokter berhasil disimpan!")
+    return redirect(url_for('getdokter'))
 
 @app.route('/edit_dokter/<int:id>', methods=['GET'])
 def edit_dokter(id):
@@ -145,11 +145,11 @@ def update_dokter(id):
     data = request.get_json()
     for d in dokters:
         if d['id'] == id:
-            d['nama'] = data.get('nama', d['nama'])
-            d['spesialis'] = data.get('spesialis', d['spesialis'])
-            d['jadwal'] = data.get('jadwal', d['jadwal'])
-            d['ruangan'] = data.get('ruangan', d['ruangan'])
-            d['notelp'] = data.get('notelp', d['notelp'])
+            d['nama'] = data.get('nama598', d['nama'])
+            d['spesialis'] = data.get('spesialis598', d['spesialis'])
+            d['jadwal'] = data.get('jadwal598', d['jadwal'])
+            d['ruangan'] = data.get('ruangan598', d['ruangan'])
+            d['notelp'] = data.get('notelp598', d['notelp'])
             flash('Data dokter berhasil diperbarui!', 'success')
             return jsonify(success=True)
     return jsonify(success=False)
@@ -169,11 +169,11 @@ def form_pasien():
 
 @app.route('/simpan_pasien', methods=['POST'])
 def simpan_pasien():
-    nama = request.form['nama']
-    umur = int(request.form['umur'])
-    jenis_kelamin = request.form['jenis_kelamin']
-    alamat = request.form['alamat']
-    notelp = request.form['notelp']
+    nama = request.form['nama616']
+    umur = int(request.form['umur616'])
+    jenis_kelamin = request.form['jenis_kelamin616']
+    alamat = request.form['alamat616']
+    notelp = request.form['notelp616']
 
     new_id = max(pasien['id'] for pasien in pasiens) + 1 if pasiens else 1
     new_pasien = {
@@ -186,7 +186,7 @@ def simpan_pasien():
     }
     pasiens.append(new_pasien)
     flash('Data pasien berhasil disimpan!', 'success')
-    return render_template('pasien616/data_pasien.html', pasien=pasiens, message="Data pasien berhasil disimpan!")
+    return redirect(url_for('getpasien'))
 
 @app.route('/edit_pasien/<int:id>', methods=['GET'])
 def edit_pasien(id):
@@ -198,11 +198,11 @@ def update_pasien(id):
     data = request.get_json()
     for p in pasiens:
         if p['id'] == id:
-            p['nama'] = data.get('nama', p['nama'])
-            p['umur'] = data.get('umur', p['umur'])
-            p['jenis_kelamin'] = data.get('jenis_kelamin', p['jenis_kelamin'])
-            p['alamat'] = data.get('alamat', p['alamat'])
-            p['notelp'] = data.get('notelp', p['notelp'])
+            p['nama'] = data.get('nama616', p['nama'])
+            p['umur'] = data.get('umur616', p['umur'])
+            p['jenis_kelamin'] = data.get('jenis_kelamin616', p['jenis_kelamin'])
+            p['alamat'] = data.get('alamat616', p['alamat'])
+            p['notelp'] = data.get('notelp616', p['notelp'])
             flash('Data pasien berhasil diperbarui!', 'success')
             return jsonify(success=True)
     return jsonify(success=False)
@@ -222,11 +222,11 @@ def form_apotek():
 
 @app.route('/simpan_apotek', methods=['POST'])
 def simpan_apotek():
-    nama_obat = request.form['nama']
-    kategori = request.form['kategori']
-    harga = int(request.form['harga'])
-    stok = int(request.form['stok'])
-    supplier = request.form['supplier']
+    nama_obat = request.form['nama591']
+    kategori = request.form['kategori591']
+    harga = int(request.form['harga591'])
+    stok = int(request.form['stok591'])
+    supplier = request.form['supplier591']
 
     new_id = max(obat['id'] for obat in obats) + 1 if obats else 1
     new_obat = {
@@ -239,7 +239,7 @@ def simpan_apotek():
     }
     obats.append(new_obat)
     flash('Data obat berhasil disimpan!', 'success')
-    return render_template('apotek591/data_apotek.html', obat=obats, message="Data obat berhasil disimpan!")
+    return redirect(url_for('getapotek'))
 
 @app.route('/edit_apotek/<int:id>', methods=['GET'])
 def edit_apotek(id):
@@ -251,11 +251,11 @@ def update_apotek(id):
     data = request.get_json()
     for o in obats:
         if o['id'] == id:
-            o['nama_obat'] = data.get('nama', o['nama_obat'])
-            o['kategori'] = data.get('kategori', o['kategori'])
-            o['harga'] = data.get('harga', o['harga'])
-            o['stok'] = data.get('stok', o['stok'])
-            o['supplier'] = data.get('supplier', o['supplier'])
+            o['nama_obat'] = data.get('nam591', o['nama_obat'])
+            o['kategori'] = data.get('kategori591', o['kategori'])
+            o['harga'] = data.get('harga591', o['harga'])
+            o['stok'] = data.get('stok591', o['stok'])
+            o['supplier'] = data.get('supplier591', o['supplier'])
             flash('Data obat berhasil diperbarui!', 'success')
             return jsonify(success=True)
     return jsonify(success=False)

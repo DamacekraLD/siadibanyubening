@@ -44,7 +44,7 @@
             <form class="needs-validation" novalidate action="{{ url_for('update_pasien', id=pasien.id) if pasien else url_for('simpan_pasien') }}" method="post" >
             <div class="mb-3">
                 <label for="inputText" class="form-label">Nama Lengkap</label>
-                <input type="text" name="nama" id="nama" class="form-control" value="{{ pasien.nama }}" required>
+                <input type="text" name="nama616" id="nama" class="form-control" value="{{ pasien.nama }}" required>
                 <div class="invalid-feedback">
                     Nama Pasien wajib diisi.
                 </div>
@@ -52,7 +52,7 @@
 
             <div class="mb-3">
                 <label for="inputText" class="form-label">Umur</label>
-                <input type="text" name="umur" id="umur" class="form-control" value="{{ pasien.umur }}" required>
+                <input type="text" name="umur616" id="umur" class="form-control" value="{{ pasien.umur }}" required>
                 <div class="invalid-feedback">
                     Umur wajib diisi.
                 </div>
@@ -60,7 +60,7 @@
 
             <div class="mb-3">
                 <label for="inputText" class="form-label">Jenis Kelamin</label>
-                <input type="text" name="jenis_kelamin" id="jenis_kelamin" class="form-control" value="{{ pasien.jenis_kelamin }}" required>
+                <input type="text" name="jenis_kelamin616" id="jenis_kelamin" class="form-control" value="{{ pasien.jenis_kelamin }}" required>
                 <div class="invalid-feedback">
                     Jenis Kelamin wajib diisi.
                 </div>
@@ -68,7 +68,7 @@
 
             <div class="mb-3">
                 <label for="inputText" class="form-label">Alamat</label>
-                <input type="text" name="alamat" id="alamat" class="form-control" value="{{ pasien.alamat }}" required>
+                <input type="text" name="alamat616" id="alamat" class="form-control" value="{{ pasien.alamat }}" required>
                 <div class="invalid-feedback">
                     Alamat wajib diisi.
                 </div>
@@ -76,7 +76,7 @@
             
             <div class="mb-3">
                 <label for="inputText" class="form-label">Nomor Telepon</label>
-                <input type="text" name="notelp" id="notelp" class="form-control" value="{{ pasien.notelp }}" required>
+                <input type="text" name="notelp616" id="notelp" class="form-control" value="{{ pasien.notelp }}" required>
                 <div class="invalid-feedback">
                     Nomor Telepon wajib diisi.
                 </div>
@@ -128,7 +128,7 @@
         fetch(`/update_pasien/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ nama, umur, jenis_kelamin, alamat, notelp })
+            body: JSON.stringify({ 'nama616': nama, 'umur616': umur, 'jenis_kelamin616': jenis_kelamin, 'alamat616': alamat, 'notelp616': notelp })
         })
         .then(response => response.json())
         .then(data => {
